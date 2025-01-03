@@ -1,0 +1,54 @@
+name: release
+on:
+    push:
+        branches:
+            - master
+    workflow_dispatch:
+
+concurrency:
+    group: 'pages'
+    cancel-in-progress: false
+
+permissions:
+    contents: write
+    pages: write
+    id-token: write
+
+jobs:
+    create-release:
+        runs-on: ubuntu-latest
+
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+        steps:
+            - uses: actions/checkout@v3
+
+            # BUILD
+            - name: Use node
+              uses: actions/setup-node@v3
+              with:
+                  cache: 'npm'
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Build
+              run: npm run build
+
+            # RELEASE
+            - name: Compress public directory
+              run: cd public && zip -r ../yt-auto-view-mode.zip .
+
+            - name: Get current date and time
+              id: datetime
+              run: echo "::set-output name=datetime::$(date '+%Y.%m.%d_%H%M')"
+
+            - name: Create Release
+              uses: softprops/action-gh-release@v1
+              with:
+                  files: yt-auto-view-mode.zip
+                  tag_name: ${{ steps.datetime.outputs.datetime }}_${{ github.sha }}
+                  body: Release notes
+                  draft: false
+                  prerelease: false
