@@ -1,0 +1,23 @@
+{
+    "name": "yt-auto-view-mode",
+    "version": "1.0.0",
+    "description": "Automatic toggling between default and theater view modes when changing between landscape and portrait monitor orientations.",
+    "homepage": "https://github.com/tomleb3/yt-auto-view-mode#readme",
+    "bugs": {
+        "url": "https://github.com/tomleb3/yt-auto-view-mode/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/tomleb3/yt-auto-view-mode.git"
+    },
+    "license": "ISC",
+    "author": "Tom Leb",
+    "main": "content.js",
+    "devDependencies": {
+        "uglify-js": "^3.19.3"
+    },
+    "scripts": {
+        "uglify": "npx uglifyjs src/content.js -c -m -o public/dist.js",
+        "build": "npm run uglify"
+    }
+}

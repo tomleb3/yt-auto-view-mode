@@ -1,0 +1,12 @@
+{
+    "manifest_version": 2,
+    "name": "yt-auto-view-mode",
+    "version": "1.0",
+    "description": "Automatic toggling between default and theater view modes when changing between landscape and portrait monitor orientations.",
+    "content_scripts": [
+        {
+            "matches": ["https://www.youtube.com/watch?v=*"],
+            "js": ["dist.js"]
+        }
+    ]
+}
