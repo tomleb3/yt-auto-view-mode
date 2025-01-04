@@ -8,5 +8,10 @@
             "matches": ["https://www.youtube.com/watch?v=*"],
             "js": ["dist.js"]
         }
-    ]
+    ],
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "dummytext@example.com"
+        }
+    }
 }
