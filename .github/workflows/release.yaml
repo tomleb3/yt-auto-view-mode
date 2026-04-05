@@ -22,11 +22,11 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
 
             # BUILD
             - name: Use node
-              uses: actions/setup-node@v3
+              uses: actions/setup-node@v4
               with:
                   cache: 'npm'
 
@@ -45,7 +45,7 @@ jobs:
               run: echo "datetime=$(date '+%Y.%m.%d_%H%M')" >> "$GITHUB_OUTPUT"
 
             - name: Create Release
-              uses: softprops/action-gh-release@v1
+              uses: softprops/action-gh-release@v2
               with:
                   files: yt-auto-view-mode.zip
                   tag_name: ${{ steps.datetime.outputs.datetime }}_${{ github.sha }}
