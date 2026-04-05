@@ -5,7 +5,7 @@
     "description": "Automatic toggling between default and theater view modes when changing between landscape and portrait monitor orientations.",
     "content_scripts": [
         {
-            "matches": ["https://www.youtube.com/watch?v=*"],
+            "matches": ["https://www.youtube.com/*"],
             "js": ["dist.js"]
         }
     ],

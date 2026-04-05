@@ -101,7 +101,12 @@
         }
     };
 
+    const isWatchPage = () => location.pathname === '/watch';
+
     const enforceOrientation = () => {
+        if (!isWatchPage()) {
+            return;
+        }
         const orientation = getOrientation();
         lastOrientation = orientation;
         onOrientationChange(orientation);
@@ -126,6 +131,12 @@
             lastOrientation = newOrientation;
             onOrientationChange(newOrientation);
         }, 300);
+    });
+
+    // Re-enforce on YouTube SPA navigation (e.g. clicking a video from homepage).
+    window.addEventListener('yt-navigate-finish', () => {
+        lastOrientation = null;
+        enforceOrientation();
     });
 
     // Wait for the player size button to appear, then enforce the correct view mode.
