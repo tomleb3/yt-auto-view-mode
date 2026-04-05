@@ -134,17 +134,27 @@
     });
 
     // Re-enforce on YouTube SPA navigation (e.g. clicking a video from homepage).
+    // The player DOM may be re-created, so wait for the size button to appear.
     window.addEventListener('yt-navigate-finish', () => {
         lastOrientation = null;
-        enforceOrientation();
+        waitForPlayerAndEnforce();
     });
 
-    // Wait for the player size button to appear, then enforce the correct view mode.
-    const observer = new MutationObserver(() => {
+    /** Wait for the player size button to appear, then enforce the correct view mode. */
+    const waitForPlayerAndEnforce = () => {
+        // If the button already exists, enforce immediately.
         if (document.querySelector('.ytp-size-button') !== null) {
-            observer.disconnect();
             enforceOrientation();
+            return;
         }
-    });
-    observer.observe(document.documentElement, { childList: true, subtree: true });
+        const observer = new MutationObserver(() => {
+            if (document.querySelector('.ytp-size-button') !== null) {
+                observer.disconnect();
+                enforceOrientation();
+            }
+        });
+        observer.observe(document.documentElement, { childList: true, subtree: true });
+    };
+
+    waitForPlayerAndEnforce();
 })();
