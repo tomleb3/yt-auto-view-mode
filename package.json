@@ -17,7 +17,7 @@
         "uglify-js": "^3.19.3"
     },
     "scripts": {
-        "uglify": "npx uglifyjs src/content.js -c -m -o public/dist.js",
+        "uglify": "uglifyjs src/content.js -c -m -o public/dist.js",
         "build": "npm run uglify"
     }
 }
