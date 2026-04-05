@@ -119,6 +119,9 @@
     let resizeTimer = null;
 
     window.addEventListener('resize', () => {
+        if (!isWatchPage()) {
+            return;
+        }
         if (resizeTimer !== null) {
             clearTimeout(resizeTimer);
         }
