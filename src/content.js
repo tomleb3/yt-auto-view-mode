@@ -104,12 +104,21 @@
     /** @type {Orientation | null} */
     let lastOrientation = null;
 
+    /** @type {ReturnType<typeof setTimeout> | null} */
+    let resizeTimer = null;
+
     window.addEventListener('resize', () => {
-        const newOrientation = getOrientation();
-        if (newOrientation === lastOrientation) {
-            return;
+        if (resizeTimer !== null) {
+            clearTimeout(resizeTimer);
         }
-        lastOrientation = newOrientation;
-        onOrientationChange(newOrientation);
+        resizeTimer = setTimeout(() => {
+            resizeTimer = null;
+            const newOrientation = getOrientation();
+            if (newOrientation === lastOrientation) {
+                return;
+            }
+            lastOrientation = newOrientation;
+            onOrientationChange(newOrientation);
+        }, 300);
     });
 })();
