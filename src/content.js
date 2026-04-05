@@ -24,13 +24,13 @@
 
     /**
      * @param {string} name
-     * @returns {string}
+     * @returns {string | null}
      */
     const getCookie = name => {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
         if (parts.length !== 2) {
-            throw new Error(`Unexpected amount of "parts" found when getting cookie: ${parts}`);
+            return null;
         }
         // @ts-ignore
         return parts.pop().split(';').shift();
@@ -44,7 +44,7 @@
         return 'landscape';
     };
 
-    /** @returns {ViewMode} */
+    /** @returns {ViewMode | null} */
     const getCurrentViewMode = () => {
         const wideCookie = getCookie('wide');
         switch (wideCookie) {
@@ -55,24 +55,22 @@
                 return 'theater';
 
             default:
-                throw new Error(`Unexpected wide cookie value: ${wideCookie}`);
+                return null;
         }
     };
 
-    /** @returns {HTMLButtonElement} */
+    /** @returns {HTMLButtonElement | null} */
     const getPlayerSizeButton = () => {
-        /** @type {HTMLButtonElement | null} */
-        const theaterModeButton = document.querySelector('.ytp-size-button');
-        if (theaterModeButton === null) {
-            throw new Error('Unable to find player size button');
-        }
-        return theaterModeButton;
+        return document.querySelector('.ytp-size-button');
     };
 
     /** @param {Orientation} newOrientation */
     const onOrientationChange = newOrientation => {
         const playerSizeButton = getPlayerSizeButton();
         const currentViewMode = getCurrentViewMode();
+        if (playerSizeButton === null || currentViewMode === null) {
+            return;
+        }
         switch (newOrientation) {
             case 'landscape':
                 switch (currentViewMode) {
