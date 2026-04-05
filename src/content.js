@@ -101,8 +101,15 @@
         }
     };
 
+    /** @type {Orientation | null} */
+    let lastOrientation = null;
+
     window.addEventListener('resize', () => {
         const newOrientation = getOrientation();
+        if (newOrientation === lastOrientation) {
+            return;
+        }
+        lastOrientation = newOrientation;
         onOrientationChange(newOrientation);
     });
 })();
