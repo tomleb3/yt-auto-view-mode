@@ -122,17 +122,22 @@
         if (!isWatchPage()) {
             return;
         }
+        const newOrientation = getOrientation();
+
+        // Apply immediately on orientation change (leading edge).
+        if (newOrientation !== lastOrientation) {
+            lastOrientation = newOrientation;
+            onOrientationChange(newOrientation);
+        }
+
+        // Re-validate after settling (trailing edge) in case the cookie
+        // was stale during the immediate application.
         if (resizeTimer !== null) {
             clearTimeout(resizeTimer);
         }
         resizeTimer = setTimeout(() => {
             resizeTimer = null;
-            const newOrientation = getOrientation();
-            if (newOrientation === lastOrientation) {
-                return;
-            }
-            lastOrientation = newOrientation;
-            onOrientationChange(newOrientation);
+            onOrientationChange(getOrientation());
         }, 300);
     });
 
