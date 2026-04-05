@@ -101,6 +101,12 @@
         }
     };
 
+    const enforceOrientation = () => {
+        const orientation = getOrientation();
+        lastOrientation = orientation;
+        onOrientationChange(orientation);
+    };
+
     /** @type {Orientation | null} */
     let lastOrientation = null;
 
@@ -121,4 +127,13 @@
             onOrientationChange(newOrientation);
         }, 300);
     });
+
+    // Wait for the player size button to appear, then enforce the correct view mode.
+    const observer = new MutationObserver(() => {
+        if (document.querySelector('.ytp-size-button') !== null) {
+            observer.disconnect();
+            enforceOrientation();
+        }
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
 })();
