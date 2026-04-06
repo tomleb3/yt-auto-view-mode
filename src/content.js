@@ -147,6 +147,23 @@
         waitForPlayerAndEnforce();
     });
 
+    // Re-enforce when the tab becomes visible (e.g. browser restored a
+    // frozen / discarded tab on startup, or user switches back to this tab).
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+            lastOrientation = null;
+            waitForPlayerAndEnforce();
+        }
+    });
+
+    // Re-enforce when the page is restored from bfcache.
+    window.addEventListener('pageshow', event => {
+        if (event.persisted) {
+            lastOrientation = null;
+            waitForPlayerAndEnforce();
+        }
+    });
+
     /** Wait for the player size button to appear, then enforce the correct view mode. */
     const waitForPlayerAndEnforce = () => {
         // If the button already exists, enforce immediately.
