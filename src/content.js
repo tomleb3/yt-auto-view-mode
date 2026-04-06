@@ -8,12 +8,12 @@
 
 (() => {
     /**
-     * When writing a switch-case with a finite number of cases, use this function in the
-     * `default` clause of switch-case statements for exhaustive checking. This will make
-     * TS complain until ALL cases are handled. For example, if we have a switch-case
-     * in-which we evaluate every possible status of a component's state, if we add this
-     * to the default clause and then add a new status to the state type, TS will complain
-     * and force us to handle it as well, thus avoiding forgetting it.
+     * When writing equality checks with a finite number of cases, use this function in the
+     * final clause of the statements for exhaustive checking. This will make TS complain
+     * until ALL cases are handled. For example, if we have a switch-case in-which we evaluate
+     * every possible status of a component's state, if we add this to the default clause and
+     * then add a new status to the state type, TS will complain and force us to handle it as
+     * well, thus avoiding forgetting it.
      *
      * @param {never} _value
      * @returns {never}
@@ -50,10 +50,8 @@
         switch (wideCookie) {
             case '0':
                 return 'default';
-
             case '1':
                 return 'theater';
-
             default:
                 return null;
         }
@@ -101,6 +99,7 @@
         }
     };
 
+    /** @returns {boolean} */
     const isWatchPage = () => location.pathname === '/watch';
 
     const enforceOrientation = () => {
